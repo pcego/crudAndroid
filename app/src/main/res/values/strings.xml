@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CRUD</string>
+    <string name="btnCad">Cadastrar</string>
+    <string name="btnListar">Listar Todos</string>
+    <string name="btnUpdate">Atualizar</string>
+    <string name="btnDeletar">Apagar</string>
+    <string name="btnSair">Sair</string>
+    <string name="btnCancelar">Cancelar</string>
+    <string name="btnSalvar">Salvar</string>
+    <string name="txtNome">Nome</string>
+    <string name="txtCpf">CPF</string>
+    <string name="txtTelaCadCliente">Cadastro de Cliente</string>
+</resources>

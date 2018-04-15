@@ -15,33 +15,46 @@ import java.util.List;
  * Created by pcego on 30/03/18.
  */
 
+// Classe para criar um adapter simples para ListView
 public class BasicAdapter extends BaseAdapter{
 
     private Context context;
+    //List para armazenar objetos Cliente
     private List<Cliente> clientes = new ArrayList<>();
+
     private ClienteDao clienteDao;
 
+    // Construtor da classe
     public BasicAdapter(Context context){
         super();
         this.context = context;
         clienteDao = ClienteDao.getClienteDao(context);
         clientes = clienteDao.selecionaTodos();
     }
+
+    //Método subscrito da classe BaseAdapter
+    //Retorna a quantidade de elementos no array
     @Override
     public int getCount() {
         return clientes.size();
     }
 
+    //Método subscrito da classe BaseAdapter
+    //Retorna um objeto da posição informada no parametro position
     @Override
     public Object getItem(int position) {
         return clientes.get(position);
     }
 
+    //Método subscrito da classe BaseAdapter
+    //Retorna um long referente ao id do objeto na base de dados
     @Override
     public long getItemId(int position) {
         return clientes.get(position).getId();
     }
 
+    //Método subscrito da classe BaseAdapter
+    //Retorna uma objeto view
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
 
@@ -50,6 +63,7 @@ public class BasicAdapter extends BaseAdapter{
         float densidade = context.getResources().getDisplayMetrics().density;
         int px = (int) (dip * densidade + 0.5f);
         txtCliente.setHeight(px);
+        // texto que irá aparecer em cada elemento do ListView
         txtCliente.setText(clientes.get(position).getNome());
 
         return txtCliente;

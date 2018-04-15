@@ -16,6 +16,7 @@ public class ListDelActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener{
 
     private ListView listaClientes;
+    private BasicAdapter listAdpter;
     private long id;
     private Intent it;
     private Bundle b;
@@ -24,24 +25,32 @@ public class ListDelActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_delete_client);
+        listAdpter = new BasicAdapter(this);
         it = getIntent();
         b = it.getExtras();
 
         listaClientes = (ListView) findViewById(R.id.listDelClientes);
-        listaClientes.setAdapter(new BasicAdapter(this));
+        listaClientes.setAdapter(listAdpter);
         listaClientes.setOnItemClickListener(this);
     }
 
+    //Método invocado pelo android quando um item da lista é clicado
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
 
         id = l;
 
         if ( b.getString("apagar").equals("confirme") ) {
+
+            //Gera uma caixa de diálogo
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            //define icone da caixa
             builder.setIcon(R.mipmap.usuario);
+            //Define título da caixa
             builder.setTitle("Confirme");
+            //mensagem a ser exibida na caixa
             builder.setMessage("Deseja Realemente Deletar?");
+            //trata o evento de clique no botão sim
             builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -54,7 +63,7 @@ public class ListDelActivity extends AppCompatActivity
 
                 }
             });
-
+            //Trata evento de clique no botão não
             builder.setNegativeButton("Não", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {

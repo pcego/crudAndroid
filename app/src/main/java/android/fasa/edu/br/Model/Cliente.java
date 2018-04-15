@@ -4,6 +4,7 @@ package android.fasa.edu.br.Model;
  * Created by pcego on 28/03/18.
  */
 
+//classe POJO usada para instaciar objetos cliente
 public class Cliente {
 
     private int id;

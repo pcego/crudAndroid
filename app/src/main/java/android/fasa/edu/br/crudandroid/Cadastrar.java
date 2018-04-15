@@ -23,6 +23,8 @@ public class Cadastrar extends AppCompatActivity {
         setContentView(R.layout.activity_cadastrar);
     }
 
+    //Método criado para carregar o objeto cliente com os dados digitados pelo usuário
+    //e salvar na base de dados
     public void salvar(View v){
         cliente = new Cliente();
         clienteDao = ClienteDao.getClienteDao(getApplicationContext());
@@ -33,19 +35,25 @@ public class Cadastrar extends AppCompatActivity {
         cliente.setNome(String.valueOf(nome.getText()));
         cliente.setCpf(String.valueOf(cpf.getText()));
 
+        //verifica se algum dos campos está vazio no form
         if(cliente.getNome().equals("") || cliente.getCpf().equals("")){
 
+            //exibe uma mensagem de aviso
             Util.mensagemAviso("Cadastro de Cliente",
                     "Campo Nome e CPF devem ser Preenchidos", this);
         }
 
-
+        //Verifica retorno do método insert
+        //true dados gravados com sucesso
+        //false erro ao gravar dados
         else if(clienteDao.insert(cliente)){
 
+            //Exibe uma mensagem de curta duração
             Toast.makeText(this,
                     "Cliente Gravado com Sucesso!",
                     Toast.LENGTH_LONG).show();
 
+            //prepara campos para nova digitação
             nome.setText("");
             cpf.setText("");
 

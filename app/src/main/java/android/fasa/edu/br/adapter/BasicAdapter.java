@@ -24,12 +24,11 @@ public class BasicAdapter extends BaseAdapter{
 
     private ClienteDao clienteDao;
 
-    // Construtor da classe
-    public BasicAdapter(Context context){
+    // Construtor da classe recebendo o contexto e um list carregado
+    public BasicAdapter(Context context, List<Cliente> clientes){
         super();
         this.context = context;
-        clienteDao = ClienteDao.getClienteDao(context);
-        clientes = clienteDao.selecionaTodos();
+        this.clientes = clientes;
     }
 
     //Método subscrito da classe BaseAdapter

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.fasa.edu.br.Dao.ClienteDao;
+import android.fasa.edu.br.Model.Cliente;
 import android.fasa.edu.br.adapter.BasicAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,12 +13,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListDelActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener{
 
     private ListView listaClientes;
     private BasicAdapter listAdpter;
+    private List<Cliente> clientes;
     private long id;
+    private int listId;
     private Intent it;
     private Bundle b;
 
@@ -25,7 +31,9 @@ public class ListDelActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_delete_client);
-        listAdpter = new BasicAdapter(this);
+        clientes = new ArrayList<Cliente>();
+        clientes = ClienteDao.getClienteDao(this).selecionaTodos();
+        listAdpter = new BasicAdapter(this, clientes);
         it = getIntent();
         b = it.getExtras();
 
@@ -35,10 +43,15 @@ public class ListDelActivity extends AppCompatActivity
     }
 
     //Método invocado pelo android quando um item da lista é clicado
+    // i - posição do array
+    // l - id do elemento na base de dados
     @Override
     public void onItemClick(final AdapterView<?> adapterView, View view, int i, long l) {
 
+        // Variável com id do registro na base de dados
         id = l;
+        // Variável com id do objeto na listview
+        listId = i;
 
         if ( b.getString("apagar").equals("confirme") ) {
 
@@ -55,10 +68,17 @@ public class ListDelActivity extends AppCompatActivity
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
+                    // criando uma instância de ClienteDao e invocando o método delete
                     ClienteDao.getClienteDao(getApplicationContext()).delete((int)id);
+                    // Criando um Toast (mensagem rápida) de confirmação
                     Toast.makeText(getApplicationContext(),
                             "Cliente Deletado Com Sucesso!!",
                             Toast.LENGTH_LONG).show();
+                    // Removendo o cliente deletado da base de dados tb no array
+                    clientes.remove(listId);
+                    // notificando adapter que ouve mudança nos dados a serem exibidos
+                    listAdpter.notifyDataSetChanged();
+
                     return;
 
                 }
